@@ -327,7 +327,7 @@ defmodule Janus.Connection do
          %{"janus" => "timeout", "session_id" => session_id},
          state(handler_module: handler_module, handler_state: handler_state) = s
        ) do
-    Logger.warn("[#{__MODULE__} #{inspect(self())}] Timeout: session_id = #{inspect(session_id)}")
+    Loggern.warning("[#{__MODULE__} #{inspect(self())}] Timeout: session_id = #{inspect(session_id)}")
 
     case handler_module.handle_timeout(session_id, handler_state) do
       {:noreply, new_handler_state} ->
@@ -578,7 +578,7 @@ defmodule Janus.Connection do
     "[#{__MODULE__} #{inspect(self())}] Event: emitter = #{inspect(emitter)}, event = #{
       inspect(event)
     }, type = #{inspect(type)}, timestamp = #{inspect(timestamp)}"
-    |> Logger.warn()
+    |> Loggern.warning()
 
     {:ok, state}
   end
@@ -696,7 +696,7 @@ defmodule Janus.Connection do
   # Catch-all
   defp handle_payload(payload, state) do
     "[#{__MODULE__} #{inspect(self())}] Received unhandled payload: payload = #{inspect(payload)}"
-    |> Logger.warn()
+    |> Loggern.warning()
 
     {:ok, state}
   end

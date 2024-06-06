@@ -52,7 +52,7 @@ defmodule Janus.Connection.Transaction do
       transaction
     else
       "[#{__MODULE__} #{inspect(self())}] Generated already existing transaction: #{transaction}"
-      |> Logger.warn()
+      |> Loggern.warning()
 
       insert_transaction(
         pending_calls_table,
@@ -114,7 +114,7 @@ defmodule Janus.Connection.Transaction do
 
       count ->
         "[#{__MODULE__} #{inspect(self())}] Cleanup: cleaned up #{count} outdated transaction(s)"
-        |> Logger.warn()
+        |> Loggern.warning()
 
         true
     end
@@ -149,12 +149,12 @@ defmodule Janus.Connection.Transaction do
 
         "Deleting outdated transaction"
         |> build_log_message(transaction, response)
-        |> Logger.warn()
+        |> Loggern.warning()
 
       {:error, :unknown_transaction} ->
         "Ignoring unknown transaction"
         |> build_log_message(transaction, response)
-        |> Logger.warn()
+        |> Loggern.warning()
     end
 
     :ok
